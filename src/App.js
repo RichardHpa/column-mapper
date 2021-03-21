@@ -24,7 +24,7 @@ function App() {
 	return (
 		<div className={classes.root}>
 			<Header />
-			<Container className={classes.main}>
+			<Container className={classes.main} maxWidth="md">
 				<Routes />
 			</Container>
 			<Footer />

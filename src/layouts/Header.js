@@ -11,7 +11,7 @@ export default function Header() {
 			<AppBar position="fixed" color="default" className={classes.appBar}>
 				<Toolbar>
 					<Typography variant="h6" color="inherit" noWrap>
-						Company name
+						Column Mapping Example
 					</Typography>
 				</Toolbar>
 			</AppBar>
