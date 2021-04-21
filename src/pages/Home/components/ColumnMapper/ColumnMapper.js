@@ -19,6 +19,7 @@ import {
 	FormControlLabel,
 	TextField,
 	TableHead,
+	Grid,
 } from '@material-ui/core'
 import XLSX from 'xlsx'
 
@@ -30,10 +31,15 @@ const useStyles = makeStyles((theme) => ({
 	selectEmpty: {
 		marginTop: theme.spacing(2),
 	},
+	requiredColumn: {
+		width: '40%',
+	},
+	selectColumn: {
+		width: '60%',
+	},
 }))
 
 function allTrue(obj) {
-	// for (var o in obj) if (!obj[o]) return false
 	for (var o in obj) {
 		if (obj[o].index < 0) return false
 	}
@@ -42,15 +48,16 @@ function allTrue(obj) {
 }
 
 export default function ColumnMapper(props) {
-	const { data, goBack, requiredColumns, currentMap } = props
+	const { data, goBack, requiredColumns, dataStarts, setMappedData } = props
 	const [headingColumns, setHeadingColumns] = useState([])
 	const classes = useStyles()
 	const [saveMapping, setSaveMapping] = useState(false)
+	const [savedMapName, setSavedMapName] = useState('')
 	const [mapping, setMapping] = useState()
 	const [convertedData, setConvertedData] = useState(null)
 
 	useEffect(() => {
-		if (data && currentMap) {
+		if (data && dataStarts) {
 			const reader = new FileReader()
 			const rABS = !!reader.readAsBinaryString
 			reader.onload = ({ target: { result } }) => {
@@ -58,13 +65,13 @@ export default function ColumnMapper(props) {
 				const wsname = wb.SheetNames[0]
 				const ws = wb.Sheets[wsname]
 				const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 })
-				setHeadingColumns(jsonData[currentMap.headingRow - 1])
+				setHeadingColumns(jsonData[dataStarts.headingRow - 1])
 				setConvertedData(jsonData)
 			}
 			if (rABS) reader.readAsBinaryString(data)
 			else reader.readAsArrayBuffer(data)
 		}
-	}, [data, currentMap])
+	}, [data, dataStarts])
 
 	useEffect(() => {
 		if (requiredColumns && headingColumns.length > 0) {
@@ -100,7 +107,9 @@ export default function ColumnMapper(props) {
 		setMapping(newMapping)
 	}
 
-	// console.log(mapping)
+	const handleShowPreview = () => {
+		setMappedData({ name: savedMapName, map: mapping })
+	}
 
 	const readyForPreview = allTrue(mapping)
 
@@ -117,8 +126,12 @@ export default function ColumnMapper(props) {
 					<Table>
 						<TableHead>
 							<TableRow>
-								<TableCell>Required Column</TableCell>
-								<TableCell>Select Column</TableCell>
+								<TableCell className={classes.requiredColumn}>
+									Required Column
+								</TableCell>
+								<TableCell className={classes.selectColumn}>
+									Select Column
+								</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -129,7 +142,7 @@ export default function ColumnMapper(props) {
 										rowLabel={column}
 										columns={headingColumns}
 										changeMapping={handleChangeMapping}
-										dataRow={convertedData[currentMap.dataRow - 1]}
+										dataRow={convertedData[dataStarts.dataRow - 1]}
 									/>
 								)
 							})}
@@ -151,6 +164,8 @@ export default function ColumnMapper(props) {
 											variant="outlined"
 											fullWidth
 											size="small"
+											value={savedMapName}
+											onChange={(e) => setSavedMapName(e.target.value)}
 										/>
 									</TableCell>
 								)}
@@ -171,6 +186,7 @@ export default function ColumnMapper(props) {
 					variant="contained"
 					disableElevation
 					color="primary"
+					onClick={handleShowPreview}
 					disabled={!readyForPreview}>
 					Show Preview
 				</Button>
@@ -236,7 +252,7 @@ const Row = (props) => {
 				</FormControl>
 				{exampleData && (
 					<Typography variant="caption" color="textSecondary">
-						Example data: {exampleData}
+						Example data: {exampleData.toString()}
 					</Typography>
 				)}
 			</TableCell>

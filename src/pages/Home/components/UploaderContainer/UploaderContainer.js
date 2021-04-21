@@ -56,6 +56,10 @@ const UploaderContainer = () => {
 		})
 	}
 
+	const handleSetMappedData = (map) => {
+		console.log(map)
+	}
+
 	function getStepContent(step) {
 		switch (step) {
 			case 0:
@@ -72,8 +76,7 @@ const UploaderContainer = () => {
 					<ColumnMapper
 						data={file}
 						goBack={handleBack}
-						currentMap={startMappingOptions}
-						// startingColumn={startingColumn}
+						dataStarts={startMappingOptions}
 						requiredColumns={[
 							'Product Id',
 							'Name',
@@ -81,7 +84,7 @@ const UploaderContainer = () => {
 							'Size',
 							'Department',
 						]}
-						// setFileData={handleSetFileData}
+						setMappedData={handleSetMappedData}
 					/>
 				)
 			case 2:
