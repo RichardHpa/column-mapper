@@ -19,7 +19,6 @@ import {
 	FormControlLabel,
 	TextField,
 	TableHead,
-	Grid,
 } from '@material-ui/core'
 import XLSX from 'xlsx'
 
@@ -53,8 +52,14 @@ export default function ColumnMapper(props) {
 	const classes = useStyles()
 	const [saveMapping, setSaveMapping] = useState(false)
 	const [savedMapName, setSavedMapName] = useState('')
+
 	const [mapping, setMapping] = useState()
+
 	const [convertedData, setConvertedData] = useState(null)
+
+	// useEffect(() => {
+	// 	console.log(mapping)
+	// }, [mapping])
 
 	useEffect(() => {
 		if (data && dataStarts) {
@@ -74,10 +79,13 @@ export default function ColumnMapper(props) {
 	}, [data, dataStarts])
 
 	useEffect(() => {
-		if (requiredColumns && headingColumns.length > 0) {
+		if (dataStarts.map) {
+			setMapping(dataStarts.map)
+		} else if (requiredColumns && headingColumns.length > 0) {
 			const obj = {}
 			for (const key of requiredColumns) {
 				const col = key.toLowerCase()
+
 				const lowerCaseCols = headingColumns.map(function (value) {
 					return value.toLowerCase()
 				})
@@ -89,7 +97,7 @@ export default function ColumnMapper(props) {
 			}
 			setMapping(obj)
 		}
-	}, [requiredColumns, headingColumns])
+	}, [requiredColumns, headingColumns, dataStarts])
 
 	const handleSaveMapping = () => {
 		setSaveMapping(!saveMapping)
@@ -108,7 +116,11 @@ export default function ColumnMapper(props) {
 	}
 
 	const handleShowPreview = () => {
-		setMappedData({ name: savedMapName, map: mapping })
+		setMappedData({
+			name: savedMapName,
+			map: mapping,
+			saveMap: saveMapping,
+		})
 	}
 
 	const readyForPreview = allTrue(mapping)
@@ -140,6 +152,7 @@ export default function ColumnMapper(props) {
 									<Row
 										key={column}
 										rowLabel={column}
+										map={mapping[column]}
 										columns={headingColumns}
 										changeMapping={handleChangeMapping}
 										dataRow={convertedData[dataStarts.dataRow - 1]}
@@ -196,22 +209,28 @@ export default function ColumnMapper(props) {
 }
 
 const Row = (props) => {
-	const { rowLabel, columns, changeMapping, dataRow } = props
+	const { rowLabel, columns, changeMapping, dataRow, map } = props
 	const [matchedColumn, setMatchedColumn] = useState('')
 	const [exampleData, setExampleData] = useState('')
 
 	useEffect(() => {
-		if (rowLabel && columns) {
-			const lowerCaseCols = columns.map(function (value) {
-				return value.toLowerCase()
-			})
+		const lowerCaseCols = columns.map(function (value) {
+			return value.toLowerCase()
+		})
+		if (map.header) {
+			const indexVal = lowerCaseCols.indexOf(map.header.toLowerCase())
+			if (indexVal !== -1) {
+				setMatchedColumn(map.header.toLowerCase())
+				setExampleData(dataRow[map.index])
+			}
+		} else if (rowLabel && columns) {
 			if (lowerCaseCols.includes(rowLabel.toLowerCase())) {
 				setMatchedColumn(rowLabel.toLowerCase())
 				const indexVal = lowerCaseCols.indexOf(rowLabel.toLowerCase())
 				setExampleData(dataRow[indexVal])
 			}
 		}
-	}, [rowLabel, columns, dataRow])
+	}, [rowLabel, columns, dataRow, map])
 
 	const handleChange = (event) => {
 		const val = event.target.value
@@ -236,7 +255,6 @@ const Row = (props) => {
 						labelId="select-column-label"
 						value={matchedColumn}
 						onChange={handleChange}
-						size="small"
 						label="Select Column">
 						<MenuItem value="">
 							<em>None</em>

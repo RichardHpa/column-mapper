@@ -11,6 +11,10 @@ import {
 	Collapse,
 	Checkbox,
 	FormControlLabel,
+	Select,
+	MenuItem,
+	FormControl,
+	InputLabel,
 } from '@material-ui/core'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import CloseIcon from '@material-ui/icons/Close'
@@ -30,11 +34,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Upload(props) {
 	const classes = useStyles()
-	const { onUpload, file, startMappingOptions, setMappingOptions } = props
+	const {
+		onUpload,
+		file,
+		startMappingOptions,
+		setMappingOptions,
+		setMap,
+	} = props
 	const [selectedFiles, setSelectedFiles] = useState(null)
 	// const [startingColumn, setStartingColumn] = useState(1)
 	const inputEl = useRef(null)
 	const [showAdvancedOptions, setShowAdvancedOptions] = useState(false)
+	const [useMapping, setUseMapping] = useState(false)
+	const [selectedMap, setSelectedMap] = useState('')
 
 	useEffect(() => {
 		setSelectedFiles(file)
@@ -64,10 +76,22 @@ export default function Upload(props) {
 	const handleUpload = () => {
 		if (onUpload) {
 			onUpload(selectedFiles)
-			// onUpload({
-			// 	file: selectedFiles,
-			// 	// startingColumn: startingColumn,
-			// })
+		}
+	}
+
+	const handleSelectMap = (e) => {
+		const { value } = e.target
+		setSelectedMap(value)
+
+		if (value) {
+			const maps = JSON.parse(localStorage.getItem('columnMapper'))
+			const found = maps.find((map) => map.name === value)
+			setMap(found)
+		} else {
+			setMap({
+				headingRow: 1,
+				dataRow: 2,
+			})
 		}
 	}
 
@@ -135,6 +159,42 @@ export default function Upload(props) {
 						</Button>
 					</Box>
 				</Grid>
+				{localStorage.getItem('columnMapper') && (
+					<Grid item xs={12}>
+						<FormControlLabel
+							checked={useMapping}
+							onChange={() => {
+								setUseMapping(!useMapping)
+							}}
+							control={<Checkbox name="checkedA" />}
+							label="Use existing mapper?"
+						/>
+						<Collapse in={useMapping}>
+							<FormControl variant="outlined" fullWidth>
+								<InputLabel id="select-Map">Select saved map</InputLabel>
+								<Select
+									labelId="select-Map"
+									value={selectedMap}
+									onChange={handleSelectMap}
+									label="Select Saved Map">
+									<MenuItem value="">
+										<em>None</em>
+									</MenuItem>
+									{JSON.parse(localStorage.getItem('columnMapper')).map(
+										(map) => {
+											return (
+												<MenuItem value={map.name} key={map.name}>
+													{map.name}
+												</MenuItem>
+											)
+										}
+									)}
+								</Select>
+							</FormControl>
+						</Collapse>
+					</Grid>
+				)}
+
 				<Grid item xs={12}>
 					<Typography variant="body2" color="textSecondary">
 						We assume that you are using a standard spreadsheet where your
@@ -146,7 +206,7 @@ export default function Upload(props) {
 						onChange={() => {
 							setShowAdvancedOptions(!showAdvancedOptions)
 						}}
-						control={<Checkbox name="checkedA" />}
+						control={<Checkbox name="showAdvancedOptions" />}
 						label="Show Advanced Mapping options"
 					/>
 					<Collapse in={showAdvancedOptions}>
@@ -158,7 +218,6 @@ export default function Upload(props) {
 								name="headingRow"
 								label="Heading Row"
 								fullWidth
-								// value={startingColumn}
 								value={startMappingOptions.headingRow}
 								onChange={handleOnChange}
 								type="number"
@@ -176,7 +235,6 @@ export default function Upload(props) {
 								name="dataRow"
 								label="Starting Data Row"
 								fullWidth
-								// value={startingColumn}
 								value={startMappingOptions.dataRow}
 								onChange={handleOnChange}
 								type="number"
@@ -186,31 +244,9 @@ export default function Upload(props) {
 								Which row does your data start on
 							</Typography>
 						</Box>
-						<Box pt={1}>
-							<TextField
-								variant="outlined"
-								size="small"
-								id="startColumn"
-								name="startColumn"
-								label="Starting Column"
-								fullWidth
-								// value={startingColumn}
-								value={startMappingOptions.startColumn}
-								onChange={handleOnChange}
-								type="number"
-								InputProps={{ inputProps: { min: 1 } }}
-							/>
-							<Typography variant="body2" gutterBottom color="textSecondary">
-								Which Column does your data start on (number not the letter)
-							</Typography>
-						</Box>
 					</Collapse>
 				</Grid>
 			</Grid>
-
-			{/* <div className={classes.buttonContainer}>
-
-			</div> */}
 		</Box>
 	)
 }
