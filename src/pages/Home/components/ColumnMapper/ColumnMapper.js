@@ -42,11 +42,12 @@ function allTrue(obj) {
 }
 
 export default function ColumnMapper(props) {
-	const { data, goBack, startingColumn, requiredColumns, currentMap } = props
+	const { data, goBack, requiredColumns, currentMap } = props
 	const [headingColumns, setHeadingColumns] = useState([])
 	const classes = useStyles()
 	const [saveMapping, setSaveMapping] = useState(false)
 	const [mapping, setMapping] = useState()
+	const [convertedData, setConvertedData] = useState(null)
 
 	useEffect(() => {
 		if (data && currentMap) {
@@ -58,6 +59,7 @@ export default function ColumnMapper(props) {
 				const ws = wb.Sheets[wsname]
 				const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 })
 				setHeadingColumns(jsonData[currentMap.headingRow - 1])
+				setConvertedData(jsonData)
 			}
 			if (rABS) reader.readAsBinaryString(data)
 			else reader.readAsArrayBuffer(data)
@@ -86,23 +88,19 @@ export default function ColumnMapper(props) {
 		setSaveMapping(!saveMapping)
 	}
 
-	const handleChangeMapping = (dbCol, shCol) => {
-		const lowerCaseCols = headingColumns.map(function (value) {
-			return value.toLowerCase()
-		})
-
+	const handleChangeMapping = (dbCol, shCol, i) => {
 		const newMapping = {
 			...mapping,
 			[dbCol]: {
 				header: shCol,
-				index: lowerCaseCols.indexOf(shCol.toLowerCase()),
+				index: i,
 			},
 		}
 
 		setMapping(newMapping)
 	}
 
-	console.log(mapping)
+	// console.log(mapping)
 
 	const readyForPreview = allTrue(mapping)
 
@@ -114,49 +112,52 @@ export default function ColumnMapper(props) {
 			<Box py={2}>
 				<Divider />
 			</Box>
-			<Collapse in={Boolean(mapping)}>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableCell>Required Column</TableCell>
-							<TableCell>Select Column</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{requiredColumns.map((column) => {
-							return (
-								<Row
-									key={column}
-									rowLabel={column}
-									columns={headingColumns}
-									changeMapping={handleChangeMapping}
-								/>
-							)
-						})}
-					</TableBody>
-					<TableFooter>
-						<TableRow>
-							<TableCell colSpan={!saveMapping ? 2 : 1}>
-								<FormControlLabel
-									checked={saveMapping}
-									onChange={handleSaveMapping}
-									control={<Checkbox name="checkedA" />}
-									label="Save Mapping"
-								/>
-							</TableCell>
-							{saveMapping && (
-								<TableCell>
-									<TextField
-										label="Mapping Name"
-										variant="outlined"
-										fullWidth
-										size="small"
+			<Collapse in={Boolean(convertedData)}>
+				{convertedData && (
+					<Table>
+						<TableHead>
+							<TableRow>
+								<TableCell>Required Column</TableCell>
+								<TableCell>Select Column</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{requiredColumns.map((column) => {
+								return (
+									<Row
+										key={column}
+										rowLabel={column}
+										columns={headingColumns}
+										changeMapping={handleChangeMapping}
+										dataRow={convertedData[currentMap.dataRow - 1]}
+									/>
+								)
+							})}
+						</TableBody>
+						<TableFooter>
+							<TableRow>
+								<TableCell colSpan={!saveMapping ? 2 : 1}>
+									<FormControlLabel
+										checked={saveMapping}
+										onChange={handleSaveMapping}
+										control={<Checkbox name="checkedA" />}
+										label="Save Mapping"
 									/>
 								</TableCell>
-							)}
-						</TableRow>
-					</TableFooter>
-				</Table>
+								{saveMapping && (
+									<TableCell>
+										<TextField
+											label="Mapping Name"
+											variant="outlined"
+											fullWidth
+											size="small"
+										/>
+									</TableCell>
+								)}
+							</TableRow>
+						</TableFooter>
+					</Table>
+				)}
 			</Collapse>
 			<Box
 				pt={2}
@@ -179,8 +180,9 @@ export default function ColumnMapper(props) {
 }
 
 const Row = (props) => {
-	const { rowLabel, columns, changeMapping } = props
+	const { rowLabel, columns, changeMapping, dataRow } = props
 	const [matchedColumn, setMatchedColumn] = useState('')
+	const [exampleData, setExampleData] = useState('')
 
 	useEffect(() => {
 		if (rowLabel && columns) {
@@ -189,14 +191,22 @@ const Row = (props) => {
 			})
 			if (lowerCaseCols.includes(rowLabel.toLowerCase())) {
 				setMatchedColumn(rowLabel.toLowerCase())
+				const indexVal = lowerCaseCols.indexOf(rowLabel.toLowerCase())
+				setExampleData(dataRow[indexVal])
 			}
 		}
-	}, [rowLabel, columns])
+	}, [rowLabel, columns, dataRow])
 
 	const handleChange = (event) => {
+		const val = event.target.value
+		const lowerCaseCols = columns.map(function (value) {
+			return value.toLowerCase()
+		})
+		const indexVal = lowerCaseCols.indexOf(val.toLowerCase())
 		setMatchedColumn(event.target.value)
+		setExampleData(dataRow[indexVal])
 		if (changeMapping) {
-			changeMapping(rowLabel, event.target.value)
+			changeMapping(rowLabel, event.target.value, indexVal)
 		}
 	}
 
@@ -210,6 +220,7 @@ const Row = (props) => {
 						labelId="select-column-label"
 						value={matchedColumn}
 						onChange={handleChange}
+						size="small"
 						label="Select Column">
 						<MenuItem value="">
 							<em>None</em>
@@ -223,6 +234,11 @@ const Row = (props) => {
 						})}
 					</Select>
 				</FormControl>
+				{exampleData && (
+					<Typography variant="caption" color="textSecondary">
+						Example data: {exampleData}
+					</Typography>
+				)}
 			</TableCell>
 		</TableRow>
 	)
