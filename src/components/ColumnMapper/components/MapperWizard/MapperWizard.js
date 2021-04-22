@@ -119,7 +119,7 @@ const MapperWizard = (props) => {
 				{({ handleSubmit, submitting, values, form }) => {
 					const { getState } = form
 					return (
-						<form onSubmit={handleSubmit}>
+						<form onSubmit={handleSubmit} noValidate>
 							<Grid container spacing={2} justify="space-between">
 								<Grid item xs={12}>
 									{React.cloneElement(activePage, {
@@ -233,6 +233,7 @@ const Row = (props) => {
 			<TableCell>
 				<Select
 					variant="outlined"
+					required={rowInfo.required}
 					fieldProps={{ validate: rowInfo.required ? required : null }}
 					name={`map.${rowInfo.key}.sheetHeading`}
 					label="Select Column to map"
