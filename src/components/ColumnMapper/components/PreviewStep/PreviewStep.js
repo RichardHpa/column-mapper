@@ -1,4 +1,4 @@
-import { Grid, Box, Typography } from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
 
 const PreviewStep = () => {
 	return (
