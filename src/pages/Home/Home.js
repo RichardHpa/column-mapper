@@ -1,7 +1,8 @@
 import React from 'react'
 import { makeStyles, Paper, Typography, Box } from '@material-ui/core'
 
-import UploaderContainer from './components/UploaderContainer'
+// import UploaderContainer from './components/UploaderContainer'
+import ColumnMapper from '../../components/ColumnMapper'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -25,7 +26,8 @@ export default function Home() {
 				Column Mapping Example
 			</Typography>
 			<Paper className={classes.paper}>
-				<UploaderContainer />
+				{/* <UploaderContainer /> */}
+				<ColumnMapper></ColumnMapper>
 			</Paper>
 		</Box>
 	)
