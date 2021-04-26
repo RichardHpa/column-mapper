@@ -1,9 +1,7 @@
 import React from 'react'
 import { makeStyles, Paper, Typography, Box } from '@material-ui/core'
-// import UploaderContainer from './components/UploaderContainer'
 import ColumnMapper from '../../components/ColumnMapper'
 import { WizardPage } from '../../components/ColumnMapper/components/MapperWizard'
-// import { Field } from 'react-final-form'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -41,7 +39,6 @@ export default function Home() {
 				Column Mapping Example
 			</Typography>
 			<Paper className={classes.paper}>
-				{/* <UploaderContainer /> */}
 				<ColumnMapper>
 					<WizardPage columns={basicCols} label="Map Product Data" />
 

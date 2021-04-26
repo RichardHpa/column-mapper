@@ -163,6 +163,31 @@ function Page(props) {
 	const { formData } = useFormData()
 	const classes = useStyles()
 
+	useEffect(() => {
+		if (formData.length && columns) {
+			const obj = {}
+			const headingRow = formData[0].map(function (value) {
+				return value.toLowerCase()
+			})
+			columns.forEach((col) => {
+				const key = col.key
+				const label = col.label
+				const found = headingRow.indexOf(label.toLowerCase())
+				if (found !== -1 && values.map[key] === undefined) {
+					obj[key] = {
+						sheetHeading: label.toLowerCase(),
+						sheetIndex: found,
+					}
+				}
+			})
+			form.mutators.setValue('map', {
+				...obj,
+				...values.map,
+			})
+		}
+		// eslint-disable-next-line
+	}, [])
+
 	if (typeof children === 'function') {
 		return children()
 	}
@@ -249,6 +274,9 @@ const Row = (props) => {
 							sheetIndex: indexVal,
 						})
 					}}>
+					<MenuItem value="">
+						<em>None</em>
+					</MenuItem>
 					{columns.map((col, i) => {
 						return (
 							<MenuItem value={col.toLowerCase()} key={`${rowLabel}-${col}`}>

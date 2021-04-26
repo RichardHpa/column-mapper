@@ -39,7 +39,16 @@ const FileSetUpPage = (props) => {
 	useEffect(() => {
 		if (values.useSavedMap && localStorageSavedMaps) {
 			if (localStorageSavedMaps.length === 1) {
-				form.mutators.setValue('savedMap', localStorageSavedMaps[0].name)
+				form.mutators.setValue(
+					'mappingName',
+					localStorageSavedMaps[0].mappingName
+				)
+				form.mutators.setValue('map', localStorageSavedMaps[0].map)
+				form.mutators.setValue(
+					'headingRow',
+					localStorageSavedMaps[0].headingRow
+				)
+				form.mutators.setValue('dataRow', localStorageSavedMaps[0].dataRow)
 			}
 		}
 		if (values.useSavedMap === false) {
@@ -60,6 +69,17 @@ const FileSetUpPage = (props) => {
 		inputEl.current.value = ''
 		form.mutators.setValue('file', undefined)
 		setSelectedFiles(null)
+	}
+
+	const handleSelectMap = (e) => {
+		const { value } = e.target
+		form.mutators.setValue('mappingName', value)
+		const useMap = localStorageSavedMaps.find(
+			(map) => map.mappingName === value
+		)
+		form.mutators.setValue('map', useMap.map)
+		form.mutators.setValue('headingRow', useMap.headingRow)
+		form.mutators.setValue('dataRow', useMap.dataRow)
 	}
 
 	return (
@@ -124,14 +144,16 @@ const FileSetUpPage = (props) => {
 						<Collapse in={Boolean(values.useSavedMap)}>
 							<Box mt={2}>
 								<Select
-									name="savedMap"
+									name="mappingName"
 									label="Select Saved Map"
 									disabled={localStorageSavedMaps.length === 1}
-									formControlProps={{ variant: 'outlined' }}>
+									formControlProps={{ variant: 'outlined' }}
+									onChange={handleSelectMap}
+									value={values.mappingName || ''}>
 									{localStorageSavedMaps.map((map) => {
 										return (
-											<MenuItem value={map.name} key={map.name}>
-												{map.name}
+											<MenuItem value={map.mappingName} key={map.mappingName}>
+												{map.mappingName}
 											</MenuItem>
 										)
 									})}
