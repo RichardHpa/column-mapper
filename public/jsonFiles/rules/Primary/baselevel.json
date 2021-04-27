@@ -1,0 +1,582 @@
+{
+	"Brand": {
+		"Name": "Brand",
+		"DisplayName": "Brand Name",
+		"IsExportable": true,
+		"ExportOrder": 1,
+		"Placeholder": "Brand Name",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!input.Contains(\",\") || isnull(input)",
+						"ValidationMessage": "Brand should not contain \",\"."
+					},
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": true,
+						"IsValid": "getlength(input) <= 70",
+						"ValidationMessage": "Maximum number of character for Brand is 70."
+					}
+				]
+			}
+		}
+	},
+	"SubBrand": {
+		"Name": "SubBrand",
+		"DisplayName": "Sub Brand",
+		"IsExportable": true,
+		"ExportOrder": 2,
+		"Placeholder": "Sub-Brand",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"Parameters": ["Brand"],
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!input.Contains(\",\") || isnull(input)",
+						"ValidationMessage": "Sub Brand should not contain \",\"."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(Brand) || input != Brand",
+						"ValidationMessage": "Sub Brand cannot be same as Brand '{Brand}'."
+					},
+					{
+						"IsError": true,
+						"IsValid": "getlength(input) <= 70",
+						"ValidationMessage": "Maximum number of character for Sub Brand is 70."
+					}
+				]
+			}
+		}
+	},
+	"FunctionalName": {
+		"Name": "FunctionalName",
+		"DisplayName": "Functional Name",
+		"IsExportable": true,
+		"ExportOrder": 3,
+		"Placeholder": "i.e. Chocolate, Butter, Shampoo",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "Describes what the product is",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": true,
+						"IsValid": "getlength(input) <= 35",
+						"ValidationMessage": "Maximum number of character for Functional Name is 35."
+					}
+				]
+			}
+		}
+	},
+	"VariantDescription": {
+		"Name": "VariantDescription",
+		"DisplayName": "Variant",
+		"IsExportable": true,
+		"ExportOrder": 4,
+		"Placeholder": "i.e. Caramello, Salted, Silky Smooth",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "Characteristic that differentiate products such as flavour, fragrance, taste, type, etc",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!input.Contains(\",\") || isnull(input)",
+						"ValidationMessage": "Variant should not contain \",\"."
+					},
+					{
+						"IsError": true,
+						"IsValid": "getlength(input) <= 50",
+						"ValidationMessage": "Maximum number of character for Variant is 50."
+					}
+				]
+			}
+		}
+	},
+	"NetContentValue": {
+		"Name": "NetContentValue",
+		"DisplayName": "Net Content",
+		"IsExportable": true,
+		"ExportOrder": 5,
+		"Placeholder": "Net Content",
+		"IsPrimary": true,
+		"RequiredInputType": 0,
+		"HelpMessage": "",
+		"Parameters": ["NetContentUom"],
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || NetContentUom != \"EA\" || getdecimalpoint(input) <= 0",
+						"ValidationMessage": "Cannot have decimal places."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || NetContentUom != \"GRM\" || getdecimalpoint(input) <= 2",
+						"ValidationMessage": "No more than 2 decimal places."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || NetContentUom != \"KGM\" || getdecimalpoint(input) <= 3",
+						"ValidationMessage": "No more than 3 decimal places."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || NetContentUom != \"LTR\" || getdecimalpoint(input) <= 3",
+						"ValidationMessage": "No more than 3 decimal places."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || NetContentUom != \"MLT\" || getdecimalpoint(input) <= 3",
+						"ValidationMessage": "No more than 3 decimal places."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || NetContentUom != \"MLT\" || getdecimalpoint(input) <= 3",
+						"ValidationMessage": "No more than 3 decimal places."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || NetContentUom != \"GRM\" || input < 100000",
+						"ValidationMessage": "Must be less than 100000."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || NetContentUom != \"KGM\" || input < 100",
+						"ValidationMessage": "Must be less than 100."
+					}
+				]
+			}
+		}
+	},
+	"NetContentUom": {
+		"Name": "NetContentUom",
+		"DisplayName": "Net Content UOM",
+		"IsExportable": true,
+		"ExportOrder": 7,
+		"Placeholder": "Unit of Measure",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "Unit of measure is required."
+					}
+				]
+			}
+		}
+	},
+	"NetContentQty": {
+		"Name": "NetContentQty",
+		"DisplayName": "Net Content Quantity",
+		"IsExportable": true,
+		"ExportOrder": 6,
+		"Placeholder": "",
+		"IsPrimary": true,
+		"RequiredInputType": 0,
+		"HelpMessage": "",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					}
+				]
+			}
+		}
+	},
+	"Description": {
+		"Name": "Description",
+		"DisplayName": "Trade Item Description",
+		"IsExportable": true,
+		"ExportOrder": 8,
+		"Placeholder": "Trade Item Description",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"Parameters": [
+			"NetContentValue",
+			"VariantDescription",
+			"Brand",
+			"SubBrand"
+		],
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": true,
+						"IsValid": "!input.Contains(\",\") || isnull(input)",
+						"ValidationMessage": "Description must not contain \",\"."
+					},
+					{
+						"IsError": false,
+						"IsValid": "isnull(input) || isnull(NetContentValue) || NetContentValue == 1.0 || (\" \"+input+\" \").ToUpper().Contains((\" \"+(NetContentValue)).ToUpper())",
+						"ValidationMessage": "Description should contain \"{NetContentValue}\"."
+					},
+					{
+						"IsError": false,
+						"IsValid": "isnull(input) || isnull(VariantDescription) ||(\" \"+input+\" \").ToUpper().Contains((\" \"+VariantDescription+\" \").ToUpper())",
+						"ValidationMessage": "Description should contain \"{VariantDescription}\"."
+					},
+					{
+						"IsError": false,
+						"IsValid": "isnull(input) || isnull(SubBrand) ||(\" \"+input+\" \").ToUpper().Contains((\" \"+SubBrand+\" \").ToUpper())",
+						"ValidationMessage": "Description should contain \"{SubBrand}\"."
+					},
+					{
+						"IsError": false,
+						"IsValid": "isnull(input) || isnull(Brand) ||(\" \"+input+\" \").ToUpper().Contains((\" \"+Brand+\" \").ToUpper())",
+						"ValidationMessage": "Description should contain \"{Brand}\"."
+					}
+				]
+			}
+		}
+	},
+	"ShortDescription": {
+		"Name": "ShortDescription",
+		"DisplayName": "Short Description",
+		"IsExportable": true,
+		"ExportOrder": 9,
+		"Placeholder": "Short Description",
+		"IsPrimary": true,
+		"IsClearOnHide": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "A short description of your product (max 35 characters)"
+	},
+	"ProductCode": {
+		"Name": "ProductCode",
+		"DisplayName": "Product Code",
+		"IsExportable": true,
+		"ExportOrder": 0,
+		"Placeholder": "Your Product/SKU code.",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": true,
+						"IsValid": "getlength(input) <= 20",
+						"ValidationMessage": "Maximum number of character is 20."
+					}
+				]
+			}
+		}
+	},
+	"CountryOfOrigin": {
+		"Name": "CountryOfOrigin",
+		"DisplayName": "Country of Origin",
+		"IsExportable": true,
+		"ExportOrder": 11,
+		"Placeholder": "Country of Origin",
+		"IsPrimary": true,
+		"IsClearOnHide": true,
+		"RequiredInputType": 1,
+		"HelpMessage": ""
+	},
+	"GpcBrick": {
+		"Name": "GpcBrick",
+		"DisplayName": "Category",
+		"IsExportable": true,
+		"ExportOrder": 10,
+		"Placeholder": "GPC Brick",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					}
+				]
+			}
+		}
+	},
+	"GroupIdentificationCode": {
+		"Name": "GroupIdentificationCode",
+		"DisplayName": "Product Group Code",
+		"IsExportable": true,
+		"ExportOrder": 12,
+		"Placeholder": "i.e. 0001, 0002, etc",
+		"IsPrimary": true,
+		"IsClearOnHide": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "A code assigned by the supplier to logically group items. A code should be a 3 or 4 digit number as per the example. Note you may decide to only have one group of products."
+	},
+	"GroupIdentificationCodeDescription": {
+		"Name": "GroupIdentificationCodeDescription",
+		"DisplayName": "Product Group Code Description",
+		"IsExportable": true,
+		"ExportOrder": 13,
+		"Placeholder": "i.e. Chips, Desserts, Deli, etc",
+		"IsPrimary": true,
+		"IsClearOnHide": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "The text description of the value represented by the Product Group Code above as per the example. Note you may decide to only have one group of products."
+	},
+	"ReferencedGtin": {
+		"Name": "ReferencedGtin",
+		"DisplayName": "Referenced GTIN",
+		"IsExportable": false,
+		"Placeholder": "Referenced GTIN",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "false",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || getlength(input) == 8.0 || getlength(input) == 12.0 || getlength(input) == 13.0 || getlength(input) == 14.0",
+						"ValidationMessage": "Must be either 8, 12, 13 or 14 digits."
+					},
+					{
+						"IsError": true,
+						"IsValid": "checkgtin(input)",
+						"ValidationMessage": "Check digit is not correct."
+					}
+				]
+			}
+		}
+	},
+	"ReferencedItemTypeCode": {
+		"Name": "ReferencedItemTypeCode",
+		"DisplayName": "Referenced Item Type Code",
+		"IsExportable": false,
+		"Placeholder": "Referenced Item Type Code",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"Parameters": ["ReferencedGtin"],
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "!isnull(ReferencedGtin)",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					}
+				]
+			}
+		}
+	},
+	"MinimumLifeSpanFromProduction": {
+		"Name": "MinimumLifeSpanFromProduction",
+		"DisplayName": "Shelf Life from Time of Production",
+		"IsExportable": true,
+		"ExportOrder": 14,
+		"Placeholder": "Shelf Life from Time of Production",
+		"IsPrimary": true,
+		"RequiredInputType": 0,
+		"HelpMessage": "",
+		"Parameters": ["MinimumLifeSpanFromArrival", "DateOnPackagingTypeCode"],
+		"IsClearOnHide": true
+	},
+	"MinimumLifeSpanFromArrival": {
+		"Name": "MinimumLifeSpanFromArrival",
+		"DisplayName": "Minimum Shelf Life from Time of Arrival at Retailer",
+		"IsExportable": true,
+		"ExportOrder": 15,
+		"Placeholder": "Minimum Shelf Life from Time of Arrival at Retailer",
+		"IsPrimary": true,
+		"RequiredInputType": 0,
+		"HelpMessage": "",
+		"Parameters": ["MinimumLifeSpanFromProduction", "DateOnPackagingTypeCode"],
+		"IsClearOnHide": true
+	},
+	"DateOnPackagingTypeCode": {
+		"Name": "DateOnPackagingTypeCode",
+		"DisplayName": "Type of Expiry Date",
+		"IsExportable": true,
+		"ExportOrder": 16,
+		"Placeholder": "Type of Expiry Date",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"IsClearOnHide": true,
+		"Parameters": [
+			"MinimumLifeSpanFromArrival",
+			"MinimumLifeSpanFromProduction"
+		]
+	},
+	"OpenedTradeItemLifespan": {
+		"Name": "OpenedTradeItemLifespan",
+		"DisplayName": "Opened Item Lifespan (days)",
+		"IsExportable": false,
+		"ExportOrder": 999,
+		"Placeholder": "Opened Item Lifespan (days)",
+		"IsPrimary": true,
+		"RequiredInputType": 0,
+		"IsClearOnHide": true,
+		"HelpMessage": ""
+	},
+	"GlobalTradeItemNumber": {
+		"Name": "GlobalTradeItemNumber",
+		"DisplayName": "GTIN",
+		"IsExportable": false,
+		"Placeholder": "",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "false",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": []
+			}
+		}
+	},
+	"IsNetContentForPack": {
+		"Name": "IsNetContentForPack",
+		"DisplayName": "Is Net Content For Pack",
+		"IsExportable": false,
+		"Placeholder": "",
+		"IsPrimary": true,
+		"RequiredInputType": 2,
+		"HelpMessage": "",
+		"Conditions": {
+			"GDSN": {
+				"ViewConditions": [
+					{
+						"IsVisible": "false",
+						"IsEnabled": "true"
+					}
+				]
+			}
+		}
+	},
+	"CountryOfOriginStatement": {
+		"Name": "CountryOfOriginStatement",
+		"DisplayName": "Country Of Origin Statement",
+		"IsExportable": false,
+		"ExportOrder": 15,
+		"Placeholder": "For example, Made in New Zealand from local and imported ingredients",
+		"IsPrimary": true,
+		"RequiredInputType": 1,
+		"HelpMessage": "",
+		"IsClearOnHide": true
+	}
+}

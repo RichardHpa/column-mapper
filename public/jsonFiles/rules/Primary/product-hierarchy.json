@@ -1,0 +1,1148 @@
+{
+  "IsBaseConsumerUnit": {
+      "Name": "IsBaseConsumerUnit",
+      "DisplayName": "Is Consumer Unit",
+      "IsExportable": true,
+      "ExportOrder": 19,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "DefaultValue": "true",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberBaseUnit",
+          "IsInnerConsumerUnit",
+          "IsCaseConsumerUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "true",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "isnull(Hierarchy_GlobalTradeItemNumberBaseUnit) || input || (!input && (IsCaseConsumerUnit || IsInnerConsumerUnit))",
+                      "ValidationMessage": "At least one must be a Consumer Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsInnerConsumerUnit": {
+      "Name": "IsInnerConsumerUnit",
+      "DisplayName": "Is Consumer Unit",
+      "IsExportable": true,
+      "ExportOrder": 38,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "IsBaseConsumerUnit",
+          "IsCaseConsumerUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberInner)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "input || (!input && (IsBaseConsumerUnit || IsCaseConsumerUnit))",
+                      "ValidationMessage": "At least one must be a Consumer Unit."
+                  },
+                  {
+                      "IsError": false,
+                      "IsValid": "!input",
+                      "ValidationMessage": "Normally only the 'Base Unit' is a Consumer Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsCaseConsumerUnit": {
+      "Name": "IsCaseConsumerUnit",
+      "DisplayName": "Is Consumer Unit",
+      "IsExportable": true,
+      "ExportOrder": 60,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "IsBaseConsumerUnit",
+          "IsInnerConsumerUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberCase)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "input || (!input && (IsBaseConsumerUnit || IsInnerConsumerUnit))",
+                      "ValidationMessage": "At least one must be a Consumer Unit."
+                  },
+                  {
+                      "IsError": false,
+                      "IsValid": "!input",
+                      "ValidationMessage": "Normally only the 'Base Unit' is a Consumer Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsBaseOrderableUnit": {
+      "Name": "IsBaseOrderableUnit",
+      "DisplayName": "Is Orderable Unit",
+      "IsExportable": true,
+      "ExportOrder": 20,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberBaseUnit",
+          "IsInnerOrderableUnit",
+          "IsCaseOrderableUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "true",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "isnull(Hierarchy_GlobalTradeItemNumberBaseUnit) || input || (!input && (IsInnerOrderableUnit || IsCaseOrderableUnit))",
+                      "ValidationMessage": "At least one must be a Orderable Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsInnerOrderableUnit": {
+      "Name": "IsInnerOrderableUnit",
+      "DisplayName": "Is Orderable Unit",
+      "IsExportable": true,
+      "ExportOrder": 39,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "IsBaseOrderableUnit",
+          "IsCaseOrderableUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberInner)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "input || (!input && (IsBaseOrderableUnit || IsCaseOrderableUnit))",
+                      "ValidationMessage": "At least one must be a Orderable Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsCaseOrderableUnit": {
+      "Name": "IsCaseOrderableUnit",
+      "DisplayName": "Is Orderable Unit",
+      "IsExportable": true,
+      "ExportOrder": 61,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "IsInnerOrderableUnit",
+          "IsBaseOrderableUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberCase)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "input || (!input && (IsInnerOrderableUnit || IsBaseOrderableUnit))",
+                      "ValidationMessage": "At least one must be a Orderable Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsBaseDespatchUnit": {
+      "Name": "IsBaseDespatchUnit",
+      "DisplayName": "Is Despatch Unit",
+      "IsExportable": true,
+      "ExportOrder": 21,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberBaseUnit",
+          "IsInnerDespatchUnit",
+          "IsCaseDespatchUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "true",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "isnull(Hierarchy_GlobalTradeItemNumberBaseUnit) || input || (!input && (IsInnerDespatchUnit || IsCaseDespatchUnit))",
+                      "ValidationMessage": "At least one must be a Despatch Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsInnerDespatchUnit": {
+      "Name": "IsInnerDespatchUnit",
+      "DisplayName": "Is Despatch Unit",
+      "IsExportable": true,
+      "ExportOrder": 40,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "IsCaseDespatchUnit",
+          "IsBaseDespatchUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberInner)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "input || (!input && (IsCaseDespatchUnit || IsBaseDespatchUnit))",
+                      "ValidationMessage": "At least one must be a Despatch Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsCaseDespatchUnit": {
+      "Name": "IsCaseDespatchUnit",
+      "DisplayName": "Is Despatch Unit",
+      "IsExportable": true,
+      "ExportOrder": 62,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "IsInnerDespatchUnit",
+          "IsBaseDespatchUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberCase)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "input || (!input && (IsInnerDespatchUnit || IsBaseDespatchUnit))",
+                      "ValidationMessage": "At least one must be a Despatch Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsBaseInvoiceUnit": {
+      "Name": "IsBaseInvoiceUnit",
+      "DisplayName": "Is Invoice Unit",
+      "IsExportable": true,
+      "ExportOrder": 22,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberBaseUnit",
+          "IsInnerInvoiceUnit",
+          "IsCaseInvoiceUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberBaseUnit)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "input || (!input && (IsInnerInvoiceUnit || IsCaseInvoiceUnit))",
+                      "ValidationMessage": "At least one must be a Invoice Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsInnerInvoiceUnit": {
+      "Name": "IsInnerInvoiceUnit",
+      "DisplayName": "Is Invoice Unit",
+      "IsExportable": true,
+      "ExportOrder": 41,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "IsCaseInvoiceUnit",
+          "IsBaseInvoiceUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberInner)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "input || (!input && (IsCaseInvoiceUnit || IsBaseInvoiceUnit))",
+                      "ValidationMessage": "At least one must be a Invoice Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsCaseInvoiceUnit": {
+      "Name": "IsCaseInvoiceUnit",
+      "DisplayName": "Is Invoice Unit",
+      "IsExportable": true,
+      "ExportOrder": 63,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "IsInnerInvoiceUnit",
+          "IsBaseInvoiceUnit"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberCase)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "input || (!input && (IsInnerInvoiceUnit || IsBaseInvoiceUnit))",
+                      "ValidationMessage": "At least one must be a Invoice Unit."
+                  }
+              ]
+          }
+      }
+  },
+  "IsNonSoldItemReturnableBaseUnit": {
+      "Name": "IsNonSoldItemReturnableBaseUnit",
+      "DisplayName": "Is Non Sold Item Returnable",
+      "IsExportable": true,
+      "ExportOrder": 24,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "IsClearOnHide": true,
+      "HelpMessage": ""
+  },
+  "IsNonSoldItemReturnableInner": {
+      "Name": "IsNonSoldItemReturnableInner",
+      "DisplayName": "Is Non Sold Item Returnable",
+      "IsExportable": true,
+      "ExportOrder": 43,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner"
+      ]
+  },
+  "IsNonSoldItemReturnableCase": {
+      "Name": "IsNonSoldItemReturnableCase",
+      "DisplayName": "Is Non Sold Item Returnable",
+      "IsExportable": true,
+      "ExportOrder": 65,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase"
+      ]
+  },
+  "IsTradeItemAVariableUnitBaseUnit": {
+      "Name": "IsTradeItemAVariableUnitBaseUnit",
+      "DisplayName": "Does product vary significantly in weight?",
+      "IsExportable": true,
+      "ExportOrder": 23,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "true",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "IsTradeItemAVariableUnitInner": {
+      "Name": "IsTradeItemAVariableUnitInner",
+      "DisplayName": "Does product vary significantly in weight?",
+      "IsExportable": true,
+      "ExportOrder": 42,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberInner)",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "IsTradeItemAVariableUnitCase": {
+      "Name": "IsTradeItemAVariableUnitCase",
+      "DisplayName": "Does product vary significantly in weight?",
+      "IsExportable": true,
+      "ExportOrder": 64,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberCase)",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "SellingUnitOfMeasureBase": {
+      "Name": "SellingUnitOfMeasureBase",
+      "DisplayName": "Selling Unit of Measure",
+      "IsExportable": true,
+      "ExportOrder": 25,
+      "Placeholder": "Selling Unit of Measure",
+      "IsPrimary": true,
+      "RequiredInputType": 1,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "IsTradeItemAVariableUnitBaseUnit",
+          "IsBaseConsumerUnit"
+      ]
+  },
+  "SellingUnitOfMeasureInner": {
+      "Name": "SellingUnitOfMeasureInner",
+      "DisplayName": "Selling Unit of Measure",
+      "IsExportable": true,
+      "ExportOrder": 44,
+      "Placeholder": "Selling Unit of Measure",
+      "IsPrimary": true,
+      "RequiredInputType": 1,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "IsTradeItemAVariableUnitInner",
+          "IsInnerConsumerUnit"
+      ]
+  },
+  "SellingUnitOfMeasureCase": {
+      "Name": "SellingUnitOfMeasureCase",
+      "DisplayName": "Selling Unit of Measure",
+      "IsExportable": true,
+      "ExportOrder": 66,
+      "Placeholder": "Selling Unit of Measure",
+      "IsPrimary": true,
+      "RequiredInputType": 1,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "IsTradeItemAVariableUnitCase",
+          "IsCaseConsumerUnit"
+      ]
+  },
+  "HeightBase": {
+      "Name": "HeightBase",
+      "DisplayName": "Height (mm)",
+      "IsExportable": true,
+      "ExportOrder": 26,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberBaseUnit",
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "HeightInner",
+          "WidthInner",
+          "DepthInner",
+          "HeightCase",
+          "WidthCase",
+          "DepthCase"
+      ]
+  },
+  "HeightInner": {
+      "Name": "HeightInner",
+      "DisplayName": "Height (mm)",
+      "IsExportable": true,
+      "ExportOrder": 45,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "HeightCase",
+          "WidthCase",
+          "DepthCase"
+      ]
+  },
+  "HeightCase": {
+      "Name": "HeightCase",
+      "DisplayName": "Height (mm)",
+      "IsExportable": true,
+      "ExportOrder": 67,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase"
+      ]
+  },
+  "WidthBase": {
+      "Name": "WidthBase",
+      "DisplayName": "Width (mm)",
+      "IsExportable": true,
+      "ExportOrder": 27,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "IsBaseConsumerUnit",
+          "DepthBase",
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "HeightInner",
+          "WidthInner",
+          "DepthInner",
+          "HeightCase",
+          "WidthCase",
+          "DepthCase"
+      ]
+  },
+  "WidthInner": {
+      "Name": "WidthInner",
+      "DisplayName": "Width (mm)",
+      "IsExportable": true,
+      "ExportOrder": 46,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "IsInnerConsumerUnit",
+          "DepthInner",
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "HeightCase",
+          "WidthCase",
+          "DepthCase"
+      ]
+  },
+  "WidthCase": {
+      "Name": "WidthCase",
+      "DisplayName": "Width (mm)",
+      "IsExportable": true,
+      "ExportOrder": 68,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "IsCaseConsumerUnit",
+          "DepthCase"
+      ]
+  },
+  "DepthBase": {
+      "Name": "DepthBase",
+      "DisplayName": "Depth (mm)",
+      "IsExportable": true,
+      "ExportOrder": 28,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberBaseUnit",
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "HeightInner",
+          "WidthInner",
+          "DepthInner",
+          "HeightCase",
+          "WidthCase",
+          "DepthCase"
+      ]
+  },
+  "DepthInner": {
+      "Name": "DepthInner",
+      "DisplayName": "Depth (mm)",
+      "IsExportable": true,
+      "ExportOrder": 47,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "NumberBaseUnitInner",
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "DepthBase",
+          "HeightBase",
+          "WidthBase",
+          "HeightInner",
+          "WidthInner",
+          "HeightCase",
+          "WidthCase",
+          "DepthCase"
+      ]
+  },
+  "DepthCase": {
+      "Name": "DepthCase",
+      "DisplayName": "Depth (mm)",
+      "IsExportable": true,
+      "ExportOrder": 69,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "NumberBaseUnitCase",
+          "NumberBaseUnitInner",
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "DepthBase",
+          "HeightBase",
+          "WidthBase",
+          "HeightInner",
+          "WidthInner",
+          "DepthInner",
+          "HeightCase",
+          "WidthCase"
+      ]
+  },
+  "IsBaseNesting": {
+      "Name": "IsBaseNesting",
+      "DisplayName": "Does the base nest?",
+      "IsExportable": false,
+      "ExportOrder": 140,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 2,
+      "IsClearOnHide": true,
+      "HelpMessage": ""
+  },
+  "NestingHeightBaseUnit": {
+      "Name": "NestingHeightBaseUnit",
+      "DisplayName": "Nesting Height (mm)",
+      "IsExportable": true,
+      "IsPrimary": true,
+      "Placeholder": "",
+      "IsClearOnHide": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "This is the amount that a product will nest into another when stacked. Calculated as the difference between the height (in mm) of one product multiplied by 2 and the hieght of 2 products stacked.",
+      "Parameters": [
+          "HeightBase",
+          "IsBaseNesting"
+      ]
+  },
+  "NetWeightBase": {
+      "Name": "NetWeightBase",
+      "DisplayName": "Net Weight (kg)",
+      "IsExportable": true,
+      "ExportOrder": 29,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberBaseUnit",
+          "GrossWeightBaseUnit",
+          "Hierarchy_NetContentUom",
+          "Hierarchy_NetContentValue"
+      ]
+  },
+  "NetWeightInner": {
+      "Name": "NetWeightInner",
+      "DisplayName": "Net Weight (kg)",
+      "IsExportable": true,
+      "ExportOrder": 48,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "NetWeightBase",
+          "NumberBaseUnitInner"
+      ]
+  },
+  "NetWeightCase": {
+      "Name": "NetWeightCase",
+      "DisplayName": "Net Weight (kg)",
+      "IsExportable": true,
+      "ExportOrder": 70,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "NumberBaseUnitCase",
+          "NetWeightBase"
+      ]
+  },
+  "GrossWeightInner": {
+      "Name": "GrossWeightInner",
+      "DisplayName": "Gross Weight (kg)",
+      "IsExportable": true,
+      "ExportOrder": 49,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "NumberBaseUnitInner",
+          "Hierarchy_NumberOfNextLowerLevelInner",
+          "GrossWeightBaseUnit"
+      ]
+  },
+  "GrossWeightBaseUnit": {
+      "Name": "GrossWeightBase",
+      "DisplayName": "Gross Weight (kg)",
+      "IsExportable": true,
+      "ExportOrder": 30,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberBaseUnit",
+          "NetWeightBase",
+          "Hierarchy_NetContentUom",
+          "Hierarchy_NetContentValue"
+      ]
+  },
+  "GrossWeightCase": {
+      "Name": "GrossWeightCase",
+      "DisplayName": "Gross Weight (kg)",
+      "IsExportable": true,
+      "ExportOrder": 71,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "IsClearOnHide": true,
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "GrossWeightBaseUnit",
+          "NumberBaseUnitCase",
+          "NumberBaseUnitInner",
+          "GrossWeightInner",
+          "Hierarchy_NumberOfNextLowerLevelCase"
+      ]
+  },
+  "NumberBaseUnit": {
+      "Name": "NumberBaseUnit",
+      "DisplayName": "No. of Base Units",
+      "IsExportable": false,
+      "ExportOrder": 18,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "false"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "isnull(input) || input == 1",
+                      "ValidationMessage": "Must be 1."
+                  },
+                  {
+                      "IsError": true,
+                      "IsValid": "!isnull(input)",
+                      "ValidationMessage": "This is required."
+                  }
+              ]
+          }
+      }
+  },
+  "NumberBaseUnitInner": {
+      "Name": "NumberBaseUnitInner",
+      "DisplayName": "No. of Base Units Inner",
+      "IsExportable": true,
+      "ExportOrder": 37,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberInner"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberInner)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "isnull(input) || input > 0",
+                      "ValidationMessage": "Must be greater than 0."
+                  },
+                  {
+                      "IsError": true,
+                      "IsValid": "!isnull(input)",
+                      "ValidationMessage": "This is required."
+                  }
+              ]
+          }
+      }
+  },
+  "NumberBaseUnitCase": {
+      "Name": "NumberBaseUnitCase",
+      "DisplayName": "No. of Base Units Case",
+      "IsExportable": true,
+      "ExportOrder": 59,
+      "Placeholder": "",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "HelpMessage": "",
+      "Parameters": [
+          "Hierarchy_GlobalTradeItemNumberCase",
+          "Hierarchy_GlobalTradeItemNumberInner",
+          "NumberBaseUnitInner"
+      ],
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "!isnull(Hierarchy_GlobalTradeItemNumberCase)",
+                      "IsEnabled": "true"
+                  }
+              ],
+              "ValidationConditions": [
+                  {
+                      "IsError": true,
+                      "IsValid": "isnull(input) || input > 0",
+                      "ValidationMessage": "Must be greater than 0."
+                  },
+                  {
+                      "IsError": true,
+                      "IsValid": "!isnull(input)",
+                      "ValidationMessage": "This is required."
+                  },
+                  {
+                      "IsError": true,
+                      "IsValid": " isnull(Hierarchy_GlobalTradeItemNumberInner) || isnull(NumberBaseUnitInner) || ((input >= NumberBaseUnitInner) && ((input % NumberBaseUnitInner) == 0.0))",
+                      "ValidationMessage": "Must be a multiple of Base Units per Inner."
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_GlobalTradeItemNumberBaseUnit": {
+      "Name": "Hierarchy_GlobalTradeItemNumberBaseUnit",
+      "IsPrimary": true,
+      "RequiredInputType": 1,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_GlobalTradeItemNumberInner": {
+      "Name": "Hierarchy_GlobalTradeItemNumberInner",
+      "IsPrimary": true,
+      "RequiredInputType": 1,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_GlobalTradeItemNumberCase": {
+      "Name": "Hierarchy_GlobalTradeItemNumberCase",
+      "IsPrimary": true,
+      "RequiredInputType": 1,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_NetContentValue": {
+      "Name": "Hierarchy_NetContentValue",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_NetContentUom": {
+      "Name": "Hierarchy_NetContentUom",
+      "IsPrimary": true,
+      "RequiredInputType": 1,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_PackagingWeightBaseUnit": {
+      "Name": "Hierarchy_PackagingWeightBaseUnit",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_PackagingWeightInner": {
+      "Name": "Hierarchy_PackagingWeightInner",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_PackagingWeightCase": {
+      "Name": "Hierarchy_PackagingWeightCase",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_GtinOfNextLowerLevelInner": {
+      "Name": "Hierarchy_GtinOfNextLowerLevelInner",
+      "IsPrimary": true,
+      "RequiredInputType": 1,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_GtinOfNextLowerLevelCase": {
+      "Name": "Hierarchy_GtinOfNextLowerLevelCase",
+      "IsPrimary": true,
+      "RequiredInputType": 1,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_NumberOfNextLowerLevelInner": {
+      "Name": "Hierarchy_NumberOfNextLowerLevelInner",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  },
+  "Hierarchy_NumberOfNextLowerLevelCase": {
+      "Name": "Hierarchy_NumberOfNextLowerLevelCase",
+      "IsPrimary": true,
+      "RequiredInputType": 0,
+      "Conditions": {
+          "GDSN": {
+              "ViewConditions": [
+                  {
+                      "IsVisible": "false",
+                      "IsEnabled": "true"
+                  }
+              ]
+          }
+      }
+  }
+}
