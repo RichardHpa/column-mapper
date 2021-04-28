@@ -16,6 +16,8 @@ import {
 	TableCell,
 	MenuItem,
 	TableHead,
+	Tabs,
+	Tab,
 } from '@material-ui/core'
 import { Select } from 'mui-rff'
 import { Form } from 'react-final-form'
@@ -48,6 +50,7 @@ const MapperWizard = (props) => {
 	const classes = useStyles()
 	const { initialValues, children, submitForm } = props
 	const [step, setStep] = useState(0)
+	const [formValues, setFormValues] = useState(initialValues || {})
 
 	const [allPages, setAllPages] = useState([
 		<FileSetUpPage
@@ -75,10 +78,9 @@ const MapperWizard = (props) => {
 	const isLastPage = step === allPages.length - 1
 	const isFirstPage = step === 0
 
-	const handleNextStep = () => {
-		if (isLastPage) {
-		}
+	const handleNextStep = (values) => {
 		setStep(step + 1)
+		setFormValues(values)
 	}
 
 	const handlePrevStep = () => {
@@ -97,19 +99,49 @@ const MapperWizard = (props) => {
 		return activePage.props.validate ? activePage.props.validate(values) : {}
 	}
 
+	const handleChange = (event, newValue) => {
+		setStep(newValue)
+	}
+
 	return (
 		<Box>
-			<Stepper activeStep={step} className={classes.stepper} alternativeLabel>
-				{allPages.map((page, i) => (
-					<Step key={page.props.label || `step-${i + 1}`}>
-						<StepLabel>{page.props.label || `Step ${i + 1}`}</StepLabel>
-					</Step>
-				))}
+			<Stepper className={classes.stepper} alternativeLabel>
+				<Step active={isFirstPage} completed={!isFirstPage}>
+					<StepLabel>Upload Data</StepLabel>
+				</Step>
+				<Step active={!isFirstPage && !isLastPage} completed={isLastPage}>
+					<StepLabel>Map Data</StepLabel>
+				</Step>
+				<Step active={isLastPage} completed={step > allPages.length}>
+					<StepLabel>Preview Data</StepLabel>
+				</Step>
 			</Stepper>
+
+			{!isFirstPage && !isLastPage && (
+				<Box pb={4}>
+					<Tabs
+						value={step}
+						indicatorColor="primary"
+						variant="fullWidth"
+						textColor="primary"
+						onChange={handleChange}
+						centered>
+						{children.map((child, i) => {
+							return (
+								<Tab
+									key={child.props.label}
+									label={child.props.label}
+									value={i + 1}
+								/>
+							)
+						})}
+					</Tabs>
+				</Box>
+			)}
 
 			<Form
 				onSubmit={onSubmit}
-				initialValues={initialValues || {}}
+				initialValues={formValues}
 				validate={validate}
 				mutators={{
 					setValue: (args, state, utils) => {

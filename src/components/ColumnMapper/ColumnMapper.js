@@ -1,5 +1,5 @@
+import { useEffect } from 'react'
 import MapperWizard from './components/MapperWizard'
-
 import { FormDataProvider } from './FormDataContext'
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -18,7 +18,13 @@ const onSubmit = async (values) => {
 }
 
 const ColumnMapper = (props) => {
-	const { children } = props
+	const { children, initialValues } = props
+	// console.log(children)
+	useEffect(() => {
+		if (!children) {
+			throw new Error('No children have been given to Column Mapper')
+		}
+	}, [children])
 	return (
 		<FormDataProvider>
 			<MapperWizard
@@ -26,9 +32,10 @@ const ColumnMapper = (props) => {
 					headingRow: 1,
 					dataRow: 2,
 					map: {},
+					...initialValues,
 				}}
 				submitForm={onSubmit}>
-				{children}
+				{children.flat()}
 			</MapperWizard>
 		</FormDataProvider>
 	)
