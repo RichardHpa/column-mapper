@@ -18,13 +18,15 @@ import {
 	TableHead,
 	Tabs,
 	Tab,
+	TextField,
 } from '@material-ui/core'
-import { Select } from 'mui-rff'
+import { Select, Autocomplete } from 'mui-rff'
 import { Form } from 'react-final-form'
 import PropTypes from 'prop-types'
 import FileSetUpPage from '../FileSetUpPage'
 import PreviewStep from '../PreviewStep'
 import { useFormData } from '../../FormDataContext'
+import SaveDialog from 'components/ColumnMapper/components/SaveDialog'
 
 const useStyles = makeStyles((theme) => ({
 	stepper: {
@@ -44,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
 	selectColumn: {
 		width: '60%',
 	},
+	buttonGroup: {
+		'& > *:not(:first-child)': {
+			marginLeft: theme.spacing(1),
+		},
+	},
 }))
 
 const MapperWizard = (props) => {
@@ -51,6 +58,7 @@ const MapperWizard = (props) => {
 	const { initialValues, children, submitForm } = props
 	const [step, setStep] = useState(0)
 	const [formValues, setFormValues] = useState(initialValues || {})
+	const [showSave, setShowSave] = useState(false)
 
 	const [allPages, setAllPages] = useState([
 		<FileSetUpPage
@@ -127,13 +135,9 @@ const MapperWizard = (props) => {
 						onChange={handleChange}
 						centered>
 						{children.map((child, i) => {
-							return (
-								<Tab
-									key={child.props.label}
-									label={child.props.label}
-									value={i + 1}
-								/>
-							)
+							const result = child.props.label.replace(/([A-Z])/g, ' $1')
+							const label = result.charAt(0).toUpperCase() + result.slice(1)
+							return <Tab key={child.props.label} label={label} value={i + 1} />
 						})}
 					</Tabs>
 				</Box>
@@ -170,15 +174,28 @@ const MapperWizard = (props) => {
 								</Grid>
 
 								<Grid item>
-									<Button
-										variant="contained"
-										color="primary"
-										type="submit"
-										disabled={getState().invalid}>
-										{isLastPage ? 'Submit Mapping' : 'Next'}
-									</Button>
+									<Box className={classes.buttonGroup}>
+										<Button
+											variant="outlined"
+											onClick={() => setShowSave(true)}
+											disabled={isFirstPage}>
+											Save Mapping
+										</Button>
+										<Button
+											variant="contained"
+											color="primary"
+											type="submit"
+											disabled={getState().invalid}>
+											{isLastPage ? 'Submit Mapping' : 'Next'}
+										</Button>
+									</Box>
 								</Grid>
 							</Grid>
+							<SaveDialog
+								open={showSave}
+								close={() => setShowSave(false)}
+								form={form}
+							/>
 							<pre>{JSON.stringify(values, 0, 2)}</pre>
 						</form>
 					)
@@ -207,7 +224,7 @@ function Page(props) {
 				const found = headingRow.indexOf(label.toLowerCase())
 				if (found !== -1 && values.map[key] === undefined) {
 					obj[key] = {
-						sheetHeading: label.toLowerCase(),
+						sheetHeading: label,
 						sheetIndex: found,
 					}
 				}
@@ -288,35 +305,63 @@ const Row = (props) => {
 		<TableRow>
 			<TableCell>{rowInfo.label}</TableCell>
 			<TableCell>
-				<Select
-					variant="outlined"
-					required={rowInfo.required}
-					fieldProps={{ validate: rowInfo.required ? required : null }}
-					name={`map.${rowInfo.key}.sheetHeading`}
-					label="Select Column to map"
-					formControlProps={{ margin: 'none' }}
-					onChange={(e) => {
-						const { value } = e.target
-						const lowerCaseCols = columns.map(function (value) {
-							return value.toLowerCase()
-						})
-						const indexVal = lowerCaseCols.indexOf(value.toLowerCase())
-						changeSelect(`map.${rowInfo.key}`, {
-							sheetHeading: value,
-							sheetIndex: indexVal,
-						})
-					}}>
-					<MenuItem value="">
-						<em>None</em>
-					</MenuItem>
-					{columns.map((col, i) => {
-						return (
-							<MenuItem value={col.toLowerCase()} key={`${rowLabel}-${col}`}>
-								{col}
-							</MenuItem>
-						)
-					})}
-				</Select>
+				{columns.length > 8 ? (
+					<Autocomplete
+						label="Select Column to map"
+						name={`map.${rowInfo.key}.sheetHeading`}
+						options={columns}
+						variant="outlined"
+						onChange={(e, value) => {
+							const lowerCaseCols = columns.map(function (value) {
+								return value.toLowerCase()
+							})
+							const indexVal = lowerCaseCols.indexOf(value.toLowerCase())
+							changeSelect(`map.${rowInfo.key}`, {
+								sheetHeading: value,
+								sheetIndex: indexVal,
+							})
+						}}
+						renderInput={(params) => {
+							return (
+								<TextField
+									{...params}
+									variant="outlined"
+									label="Select Column to map"
+								/>
+							)
+						}}
+					/>
+				) : (
+					<Select
+						variant="outlined"
+						required={rowInfo.required}
+						fieldProps={{ validate: rowInfo.required ? required : null }}
+						name={`map.${rowInfo.key}.sheetHeading`}
+						label="Select Column to map"
+						formControlProps={{ margin: 'none' }}
+						onChange={(e) => {
+							const { value } = e.target
+							const lowerCaseCols = columns.map(function (value) {
+								return value.toLowerCase()
+							})
+							const indexVal = lowerCaseCols.indexOf(value.toLowerCase())
+							changeSelect(`map.${rowInfo.key}`, {
+								sheetHeading: value,
+								sheetIndex: indexVal,
+							})
+						}}>
+						<MenuItem value="">
+							<em>None</em>
+						</MenuItem>
+						{columns.map((col, i) => {
+							return (
+								<MenuItem value={col.toLowerCase()} key={`${rowLabel}-${col}`}>
+									{col}
+								</MenuItem>
+							)
+						})}
+					</Select>
+				)}
 				{exampleData !== undefined && (
 					<Typography variant="caption" color="textSecondary">
 						Example data: {exampleData.toString()}

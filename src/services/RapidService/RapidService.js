@@ -21,11 +21,16 @@ function formService() {
 		 * @param {String} tab - Which Tab you are wanting to get the data for Required
 		 */
 		async getTabColumns(retailer, tab) {
+			// console.log(retailer, tab)
 			if (retailer === undefined) throw Error('Missing Retailer value')
 			if (tab === undefined) throw Error('Missing Tab value')
 
 			if (tab === 'ProductHierarchy') {
 				tab = 'product-hierarchy'
+			}
+
+			if (tab === 'Communications') {
+				tab = 'communication'
 			}
 
 			const primaryData = await axios
@@ -36,6 +41,7 @@ function formService() {
 				.then((res) => res.data)
 
 			const deepMergedData = mergeDeep(primaryData, retailerData)
+			console.log(deepMergedData)
 			await simulateLoading(2000)
 			return deepMergedData
 		},

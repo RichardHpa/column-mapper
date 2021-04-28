@@ -18,8 +18,9 @@ import {
 	FormLabel,
 	MenuItem,
 	CircularProgress,
+	TextField,
 } from '@material-ui/core'
-import { Select } from 'mui-rff'
+import { Select, Autocomplete } from 'mui-rff'
 import ColumnMapper from 'components/ColumnMapper'
 import { useRapidService } from '../../services/RapidService'
 import { useQuery } from 'react-query'
@@ -69,10 +70,6 @@ const RapidMapper = () => {
 			setTabs(data)
 		}
 	}, [data])
-
-	const handleSetTabs = (x) => {
-		setTabs(x)
-	}
 
 	const handleChange = (event) => {
 		setRetailer(event.target.value)
@@ -129,14 +126,14 @@ const RapidMapper = () => {
 export default RapidMapper
 
 const RapidPage = (props) => {
-	const { children, values, form, label } = props
+	const { values, form, label } = props
 	const { getState } = form
 	const RapidService = useRapidService()
 	const { formData } = useFormData()
 	const classes = useStyles()
 	const [columnsReady, setColumnsReady] = useState(false)
 
-	const { isLoading, data: tabData } = useQuery(
+	const { data: tabData } = useQuery(
 		`tab-${getState().values.retailer}-${label}`,
 		() => {
 			return RapidService.getTabColumns(getState().values.retailer, label).then(
@@ -153,18 +150,17 @@ const RapidPage = (props) => {
 			const headingRow = formData[values.headingRow - 1].map(function (value) {
 				return value.toLowerCase()
 			})
-			console.log('heading row')
-			console.log(headingRow)
 
+			// eslint-disable-next-line
 			Object.keys(tabData).map((columnName) => {
 				const col = tabData[columnName]
-				console.log(col)
 				const key = col.Name
-				const label = col.DisplayName || key
+				const label = col.DisplayName || key || undefined
 				const found = headingRow.indexOf(label.toLowerCase())
+
 				if (found !== -1 && values.map[key] === undefined) {
 					obj[key] = {
-						sheetHeading: label.toLowerCase(),
+						sheetHeading: label,
 						sheetIndex: found,
 					}
 				}
@@ -202,15 +198,15 @@ const RapidPage = (props) => {
 						<TableHead>
 							<TableRow>
 								<TableCell className={classes.requiredColumn}>
-									Required Column
+									Column used in Rapid
 								</TableCell>
 								<TableCell className={classes.selectColumn}>
-									Select Column
+									Select Column to map
 								</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{Object.keys(tabData).map((columnName, columnValue) => {
+							{Object.keys(tabData).map((columnName) => {
 								const x = tabData[columnName].Name
 								const example =
 									formData[values.dataRow - 1][values?.map[x]?.sheetIndex]
@@ -232,43 +228,76 @@ const RapidPage = (props) => {
 	)
 }
 
-const required = (value) => (value ? undefined : 'Required')
+// const required = (value) => (value ? undefined : 'Required')
 
 const RapidRow = (props) => {
 	const { rowInfo, columns, changeSelect, exampleData } = props
+
 	return (
 		<TableRow>
 			<TableCell>{rowInfo.DisplayName || rowInfo.Name}</TableCell>
 			<TableCell>
-				<Select
-					variant="outlined"
-					name={`map.${rowInfo.Name}.sheetHeading`}
-					label="Select Column to map"
-					formControlProps={{ margin: 'none' }}
-					onChange={(e) => {
-						const { value } = e.target
-						const lowerCaseCols = columns.map(function (value) {
-							return value.toLowerCase()
-						})
-						const indexVal = lowerCaseCols.indexOf(value.toLowerCase())
-						changeSelect(`map.${rowInfo.Name}`, {
-							sheetHeading: value,
-							sheetIndex: indexVal,
-						})
-					}}>
-					<MenuItem value="">
-						<em>None</em>
-					</MenuItem>
-					{columns.map((col, i) => {
-						return (
-							<MenuItem
-								value={col.toLowerCase()}
-								key={`${rowInfo.Name}-${col}-${i}`}>
-								{col}
-							</MenuItem>
-						)
-					})}
-				</Select>
+				{columns.length > 10 ? (
+					<Autocomplete
+						label="Select Column to map"
+						name={`map.${rowInfo.Name}.sheetHeading`}
+						options={columns}
+						variant="outlined"
+						onChange={(e, value) => {
+							if (value) {
+								const lowerCaseCols = columns.map(function (value) {
+									return value.toLowerCase()
+								})
+								const indexVal = lowerCaseCols.indexOf(value.toLowerCase())
+								changeSelect(`map.${rowInfo.Name}`, {
+									sheetHeading: value,
+									sheetIndex: indexVal,
+								})
+							} else {
+								changeSelect(`map.${rowInfo.Name}`, undefined)
+							}
+						}}
+						renderInput={(params) => {
+							return (
+								<TextField
+									{...params}
+									variant="outlined"
+									label="Select Column to map"
+								/>
+							)
+						}}
+					/>
+				) : (
+					<Select
+						variant="outlined"
+						name={`map.${rowInfo.Name}.sheetHeading`}
+						label="Select Column to map"
+						formControlProps={{ margin: 'none' }}
+						onChange={(e) => {
+							const { value } = e.target
+							const lowerCaseCols = columns.map(function (value) {
+								return value.toLowerCase()
+							})
+							const indexVal = lowerCaseCols.indexOf(value.toLowerCase())
+							changeSelect(`map.${rowInfo.Name}`, {
+								sheetHeading: value,
+								sheetIndex: indexVal,
+							})
+						}}>
+						<MenuItem value="">
+							<em>None</em>
+						</MenuItem>
+						{columns.map((col, i) => {
+							return (
+								<MenuItem
+									value={col.toLowerCase()}
+									key={`${rowInfo.Name}-${col}-${i}`}>
+									{col}
+								</MenuItem>
+							)
+						})}
+					</Select>
+				)}
 				{exampleData !== undefined && (
 					<Typography variant="caption" color="textSecondary">
 						Example data: {exampleData.toString()}
