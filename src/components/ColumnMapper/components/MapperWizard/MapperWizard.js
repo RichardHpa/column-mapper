@@ -145,7 +145,8 @@ const MapperWizard = (props) => {
 
 			<Form
 				onSubmit={onSubmit}
-				initialValues={formValues}
+				// initialValues={formValues}
+				initialValues={initialValues || {}}
 				validate={validate}
 				mutators={{
 					setValue: (args, state, utils) => {
@@ -196,7 +197,7 @@ const MapperWizard = (props) => {
 								close={() => setShowSave(false)}
 								form={form}
 							/>
-							<pre>{JSON.stringify(values, 0, 2)}</pre>
+							{/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
 						</form>
 					)
 				}}
