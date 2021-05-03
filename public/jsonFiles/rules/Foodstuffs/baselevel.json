@@ -1,0 +1,160 @@
+{
+	"ShortDescription": {
+		"Name": "ShortDescription",
+		"Conditions": {
+			"Foodstuffs": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": true,
+						"IsValid": "getlength(input) <= 35",
+						"ValidationMessage": "Maximum number of character is 35."
+					}
+				]
+			}
+		}
+	},
+	"CountryOfOrigin": {
+		"Name": "CountryOfOrigin",
+		"Conditions": {
+			"Foodstuffs": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "!isnull(input)",
+						"ValidationMessage": "This is required."
+					}
+				]
+			}
+		}
+	},
+	"CountryOfOriginStatement": {
+		"Name": "CountryOfOriginStatement",
+		"Conditions": {
+			"Foodstuffs": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				]
+			}
+		}
+	},
+	"MinimumLifeSpanFromProduction": {
+		"Name": "MinimumLifeSpanFromProduction",
+		"Conditions": {
+			"Foodstuffs": {
+				"ViewConditions": [
+					{
+						"IsVisible": "!isnull(DateOnPackagingTypeCode)",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || getdecimalpoint(input) <= 0",
+						"ValidationMessage": "Must not have any decimal places."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(MinimumLifeSpanFromArrival) || (!isnull(input) && !isnull(MinimumLifeSpanFromArrival))",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": true,
+						"IsValid": "(DateOnPackagingTypeCode == \"BEST_BEFORE_DATE\" && !isnull(input)) || DateOnPackagingTypeCode != \"BEST_BEFORE_DATE\"",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": true,
+						"IsValid": "(DateOnPackagingTypeCode == \"EXPIRATION_DATE\" && !isnull(input)) || DateOnPackagingTypeCode != \"EXPIRATION_DATE\"",
+						"ValidationMessage": "This is required."
+					}
+				]
+			}
+		}
+	},
+	"MinimumLifeSpanFromArrival": {
+		"Name": "MinimumLifeSpanFromArrival",
+		"Conditions": {
+			"Foodstuffs": {
+				"ViewConditions": [
+					{
+						"IsVisible": "!isnull(DateOnPackagingTypeCode)",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || getdecimalpoint(input) <= 0",
+						"ValidationMessage": "Must not have any decimal places."
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(input) || isnull(MinimumLifeSpanFromProduction) || (input <= MinimumLifeSpanFromProduction)",
+						"ValidationMessage": "Must be less than or equal to {MinimumLifeSpanFromProduction}"
+					},
+					{
+						"IsError": true,
+						"IsValid": "isnull(MinimumLifeSpanFromProduction) || (!isnull(input) && !isnull(MinimumLifeSpanFromProduction))",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": true,
+						"IsValid": "(DateOnPackagingTypeCode == \"BEST_BEFORE_DATE\" && !isnull(input)) || DateOnPackagingTypeCode != \"BEST_BEFORE_DATE\"",
+						"ValidationMessage": "This is required."
+					},
+					{
+						"IsError": false,
+						"IsValid": "isnull(input) || isnull(MinimumLifeSpanFromProduction) || (input != MinimumLifeSpanFromProduction)",
+						"ValidationMessage": "This value should indicate the minimum remaining shelf life on the product when you send it to your retailer."
+					},
+					{
+						"IsError": true,
+						"IsValid": "(DateOnPackagingTypeCode == \"EXPIRATION_DATE\" && !isnull(input)) || DateOnPackagingTypeCode != \"EXPIRATION_DATE\"",
+						"ValidationMessage": "This is required."
+					}
+				]
+			}
+		}
+	},
+	"DateOnPackagingTypeCode": {
+		"Name": "DateOnPackagingTypeCode",
+		"Conditions": {
+			"Foodstuffs": {
+				"ViewConditions": [
+					{
+						"IsVisible": "true",
+						"IsEnabled": "true"
+					}
+				],
+				"ValidationConditions": [
+					{
+						"IsError": true,
+						"IsValid": "(isnull(MinimumLifeSpanFromArrival) && isnull(MinimumLifeSpanFromProduction) && isnull(input)) || !isnull(input)",
+						"ValidationMessage": "This is a mandatory field because minimum lifespan of item is populated."
+					}
+				]
+			}
+		}
+	}
+}

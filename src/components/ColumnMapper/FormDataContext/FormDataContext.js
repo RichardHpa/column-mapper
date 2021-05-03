@@ -10,6 +10,7 @@ const useFormData = () => useContext(FormDataContext)
 
 function FormDataProvider({ children }) {
 	const [formData, _setFormData] = useState({})
+	const [sheetNames, _setSheetNames] = useState()
 
 	const setFormData = (file) => {
 		if (file) {
@@ -23,6 +24,7 @@ function FormDataProvider({ children }) {
 					header: 1,
 				})
 				_setFormData(jsonData)
+				_setSheetNames(wb.SheetNames)
 			}
 			if (rABS) reader.readAsBinaryString(file)
 			else reader.readAsArrayBuffer(file)
@@ -31,6 +33,7 @@ function FormDataProvider({ children }) {
 
 	const contextValue = {
 		formData: formData,
+		sheetNames: sheetNames,
 		setForm: setFormData,
 	}
 

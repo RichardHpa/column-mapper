@@ -1,7 +1,12 @@
-import React from 'react'
-import { makeStyles, Paper, Typography, Box } from '@material-ui/core'
-import ColumnMapper from '../../components/ColumnMapper'
-import { WizardPage } from '../../components/ColumnMapper/components/MapperWizard'
+import {
+	makeStyles,
+	Paper,
+	Typography,
+	Button,
+	Grid,
+	Box,
+} from '@material-ui/core'
+import { Link as RouterLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -16,20 +21,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const basicCols = [
-	{ key: 'productId', label: 'Product Id', required: true },
-	{ key: 'name', label: 'Name', required: true },
-	{ key: 'price', label: 'Price', required: true },
-	{ key: 'size', label: 'Size', required: false },
-	{ key: 'department', label: 'Department Name', required: true },
-]
-
-const page2Cols = [
-	{ key: 'year', label: 'Year Released', required: true },
-	{ key: 'code', label: 'Code', required: false },
-	{ key: 'created', label: 'Created Date', required: true },
-]
-
 export default function Home() {
 	const classes = useStyles()
 
@@ -39,11 +30,38 @@ export default function Home() {
 				Column Mapping Example
 			</Typography>
 			<Paper className={classes.paper}>
-				<ColumnMapper>
-					<WizardPage columns={basicCols} label="Map Product Data" />
-
-					<WizardPage columns={page2Cols} label="Map Product Time Data" />
-				</ColumnMapper>
+				<Grid container spacing={2}>
+					<Grid item>
+						<Button
+							variant="contained"
+							color="primary"
+							size="large"
+							component={RouterLink}
+							to="/demo">
+							Demo Mapper
+						</Button>
+					</Grid>
+					<Grid item>
+						<Button
+							variant="contained"
+							color="primary"
+							size="large"
+							component={RouterLink}
+							to="/rapid">
+							Rapid Mapper
+						</Button>
+					</Grid>
+					<Grid item>
+						<Button
+							variant="contained"
+							color="primary"
+							size="large"
+							component={RouterLink}
+							to="/pricing">
+							Pricing Mapper
+						</Button>
+					</Grid>
+				</Grid>
 			</Paper>
 		</Box>
 	)

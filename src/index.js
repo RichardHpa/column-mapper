@@ -2,15 +2,30 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter as Router } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 
+import { ReactQueryDevtools } from 'react-query/devtools'
+
+// const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+})
+
 ReactDOM.render(
 	// <React.StrictMode>
-	<Router>
-		<CssBaseline />
-		<App />
-	</Router>,
+	<QueryClientProvider client={queryClient}>
+		<Router>
+			<CssBaseline />
+			<App />
+		</Router>
+		<ReactQueryDevtools position="bottom-right" />
+	</QueryClientProvider>,
 	//  </React.StrictMode>
 	document.getElementById('root')
 )
