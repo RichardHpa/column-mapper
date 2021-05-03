@@ -3,6 +3,7 @@ import Error404 from './errors/Error404'
 import Home from './pages/Home'
 import DemoMapper from 'pages/DemoMapper'
 import RapidMapper from 'pages/RapidMapper'
+import PricingMapper from 'pages/PricingMapper'
 
 export default function Routes() {
 	return (
@@ -15,6 +16,9 @@ export default function Routes() {
 			</Route>
 			<Route exact path="/rapid">
 				<RapidMapper />
+			</Route>
+			<Route exact path="/pricing">
+				<PricingMapper />
 			</Route>
 			<Route path="*">
 				<Error404 />

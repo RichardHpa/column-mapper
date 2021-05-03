@@ -125,7 +125,7 @@ const MapperWizard = (props) => {
 				</Step>
 			</Stepper>
 
-			{!isFirstPage && !isLastPage && (
+			{Array.isArray(children) && !isFirstPage && !isLastPage && (
 				<Box pb={4}>
 					<Tabs
 						value={step}

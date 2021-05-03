@@ -35,7 +35,8 @@ const ColumnMapper = (props) => {
 					...initialValues,
 				}}
 				submitForm={onSubmit}>
-				{children.flat()}
+				{/* {children.flat()} */}
+				{Array.isArray(children) ? children.flat() : children}
 			</MapperWizard>
 		</FormDataProvider>
 	)

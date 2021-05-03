@@ -54,6 +54,10 @@ export default function Header() {
 						Rapid Demo
 					</Button>
 
+					<Button color="inherit" component={RouterLink} to="/pricing">
+						Pricing Demo
+					</Button>
+
 					<Button
 						color="secondary"
 						variant="outlined"

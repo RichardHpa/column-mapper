@@ -51,6 +51,16 @@ export default function Home() {
 							Rapid Mapper
 						</Button>
 					</Grid>
+					<Grid item>
+						<Button
+							variant="contained"
+							color="primary"
+							size="large"
+							component={RouterLink}
+							to="/pricing">
+							Pricing Mapper
+						</Button>
+					</Grid>
 				</Grid>
 			</Paper>
 		</Box>
