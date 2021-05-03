@@ -57,7 +57,7 @@ const MapperWizard = (props) => {
 	const classes = useStyles()
 	const { initialValues, children, submitForm } = props
 	const [step, setStep] = useState(0)
-	const [formValues, setFormValues] = useState(initialValues || {})
+	// const [formValues, setFormValues] = useState(initialValues || {})
 	const [showSave, setShowSave] = useState(false)
 
 	const [allPages, setAllPages] = useState([
@@ -88,7 +88,7 @@ const MapperWizard = (props) => {
 
 	const handleNextStep = (values) => {
 		setStep(step + 1)
-		setFormValues(values)
+		// setFormValues(values)
 	}
 
 	const handlePrevStep = () => {
@@ -197,7 +197,7 @@ const MapperWizard = (props) => {
 								close={() => setShowSave(false)}
 								form={form}
 							/>
-							{/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
+							<pre>{JSON.stringify(values, 0, 2)}</pre>
 						</form>
 					)
 				}}
@@ -306,7 +306,7 @@ const Row = (props) => {
 		<TableRow>
 			<TableCell>{rowInfo.label}</TableCell>
 			<TableCell>
-				{columns.length > 8 ? (
+				{columns.length > 10 ? (
 					<Autocomplete
 						label="Select Column to map"
 						name={`map.${rowInfo.key}.sheetHeading`}
@@ -340,6 +340,7 @@ const Row = (props) => {
 						name={`map.${rowInfo.key}.sheetHeading`}
 						label="Select Column to map"
 						formControlProps={{ margin: 'none' }}
+						renderValue={(val) => val.toLowerCase()}
 						onChange={(e) => {
 							const { value } = e.target
 							const lowerCaseCols = columns.map(function (value) {
