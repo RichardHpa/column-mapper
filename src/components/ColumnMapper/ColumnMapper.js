@@ -9,7 +9,14 @@ const onSubmit = async (values) => {
 		const newMap = values
 		delete newMap['file']
 		const savedMaps = JSON.parse(localStorage.getItem('columnMapper')) || []
-		savedMaps.push(newMap)
+		const found = savedMaps.findIndex(
+			(i) => i.mappingName === values.mappingName
+		)
+		if (found !== -1) {
+			savedMaps.splice(found, 1, newMap)
+		} else {
+			savedMaps.push(newMap)
+		}
 		localStorage.setItem('columnMapper', JSON.stringify(savedMaps))
 	}
 
@@ -19,12 +26,12 @@ const onSubmit = async (values) => {
 
 const ColumnMapper = (props) => {
 	const { children, initialValues } = props
-	// console.log(children)
 	useEffect(() => {
 		if (!children) {
 			throw new Error('No children have been given to Column Mapper')
 		}
 	}, [children])
+
 	return (
 		<FormDataProvider>
 			<MapperWizard
@@ -35,7 +42,6 @@ const ColumnMapper = (props) => {
 					...initialValues,
 				}}
 				submitForm={onSubmit}>
-				{/* {children.flat()} */}
 				{Array.isArray(children) ? children.flat() : children}
 			</MapperWizard>
 		</FormDataProvider>

@@ -10,6 +10,7 @@ const useFormData = () => useContext(FormDataContext)
 
 function FormDataProvider({ children }) {
 	const [formData, _setFormData] = useState({})
+	const [sheetNames, _setSheetNames] = useState()
 
 	const setFormData = (file) => {
 		if (file) {
@@ -19,11 +20,11 @@ function FormDataProvider({ children }) {
 				const wb = XLSX.read(result, { type: rABS ? 'binary' : 'array' })
 				const wsname = wb.SheetNames[0]
 				const ws = wb.Sheets[wsname]
-				console.log(XLSX)
 				const jsonData = XLSX.utils.sheet_to_json(ws, {
 					header: 1,
 				})
 				_setFormData(jsonData)
+				_setSheetNames(wb.SheetNames)
 			}
 			if (rABS) reader.readAsBinaryString(file)
 			else reader.readAsArrayBuffer(file)
@@ -32,6 +33,7 @@ function FormDataProvider({ children }) {
 
 	const contextValue = {
 		formData: formData,
+		sheetNames: sheetNames,
 		setForm: setFormData,
 	}
 

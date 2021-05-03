@@ -197,7 +197,9 @@ const MapperWizard = (props) => {
 								close={() => setShowSave(false)}
 								form={form}
 							/>
-							<pre>{JSON.stringify(values, 0, 2)}</pre>
+							{process.env.NODE_ENV === 'development' && (
+								<pre>{JSON.stringify(values, 0, 2)}</pre>
+							)}
 						</form>
 					)
 				}}
